@@ -1,14 +1,12 @@
 FROM python:3.8-slim-buster
 
-COPY ./ /
-
-RUN pip3 install -r requirements.txt
+COPY ./app /app/app
+COPY ./requirements.txt /app
 
 WORKDIR /app
 
-CMD [ "python3", "-m" , "fastapi", "run", "--host=0.0.0.0"]
+RUN pip3 install -r requirements.txt
 
+EXPOSE 8000
 
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
-
-COPY ./app /app
+CMD ["uvicor, "app.main:app", "--host=0.0.0.0", "--reload"]
